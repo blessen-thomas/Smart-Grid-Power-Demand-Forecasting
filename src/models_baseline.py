@@ -178,3 +178,4 @@ if __name__ == "__main__":
         tm = res["test_metrics"]
         tp = res["test_peak"]
         print(f"{model_name:25s} | MAE: {tm['MAE_MW']:8.2f} MW | RMSE: {tm['RMSE_MW']:8.2f} MW | MAPE: {tm['MAPE_percent']:5.2f}% | R2: {tm['R2_score']:.4f} | Peak MAE: {tp['Peak_Demand_MAE_MW']:8.2f} MW")
+

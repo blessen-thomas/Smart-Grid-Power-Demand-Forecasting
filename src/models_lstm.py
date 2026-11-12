@@ -183,3 +183,4 @@ if __name__ == "__main__":
     lstm_res, lstm_preds = train_lstm_model(splits, epochs=15)
     print("LSTM Test Results:", lstm_res["LSTM"]["test_metrics"])
     print("LSTM Peak Analysis:", lstm_res["LSTM"]["test_peak"])
+

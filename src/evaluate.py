@@ -100,3 +100,4 @@ def compute_horizon_wise_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> pd.D
         rows.append(metrics)
 
     return pd.DataFrame(rows)
+

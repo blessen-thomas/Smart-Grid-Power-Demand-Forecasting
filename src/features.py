@@ -233,3 +233,4 @@ if __name__ == "__main__":
     print("Split Shapes:")
     for k, v in splits["shapes"].items():
         print(f"  {k}: {v}")
+

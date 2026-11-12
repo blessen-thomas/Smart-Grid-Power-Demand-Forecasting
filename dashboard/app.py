@@ -368,3 +368,4 @@ elif menu == "🎯 Peak Demand Analysis":
 
     if (FIGURES_DIR / "08_peak_demand_analysis.png").exists():
         st.image(str(FIGURES_DIR / "08_peak_demand_analysis.png"), use_container_width=True)
+
