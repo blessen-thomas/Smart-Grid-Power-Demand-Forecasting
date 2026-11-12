@@ -40,7 +40,7 @@ def load_raw_dataset(
     if not file_path.exists():
         raise FileNotFoundError(
             f"Raw dataset file not found at: {file_path}. "
-            "Please ensure the raw Excel file is placed in dataset/raw/."
+            "Please ensure 'January 2024- June 2025.xlsx' is placed in dataset/raw/."
         )
 
     # Read the sheet preserving original values as strings/objects to avoid silent coercion

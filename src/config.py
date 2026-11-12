@@ -53,15 +53,10 @@ FORECAST_HORIZON_HOURS = 24  # Next 24 hours forecasting objective
 TRAIN_END_DATE = "2024-12-31 23:00:00"
 VAL_END_DATE = "2025-03-31 23:00:00"
 
-# Team Details
-TEAM_INFO = {
-    "Group": "Group 4",
+# Project Metadata
+PROJECT_INFO = {
     "Project": "Smart Grid Power Demand Forecasting",
-    "Members": [
-        {"usn": "1AT24CG015", "name": "Bhavani Shankar T"},
-        {"usn": "1AT24CG016", "name": "Bheemesh V"},
-        {"usn": "1AT24CG017", "name": "Blessen Thomas (Team Leader)"},
-        {"usn": "1AT24CG018", "name": "C Vedasree"},
-    ],
+    "Author": "Blessen Thomas",
+    "Repository": "https://github.com/blessen-thomas/Smart-Grid-Power-Demand-Forecasting",
 }
 

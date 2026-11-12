@@ -124,3 +124,4 @@ def test_graceful_handling_of_mismatched_lengths():
         else:
             # Successfully identified as unavailable without IndexError
             assert m == "Model_Truncated"
+

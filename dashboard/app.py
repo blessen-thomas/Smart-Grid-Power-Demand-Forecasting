@@ -1,5 +1,5 @@
 """
-Streamlit Web Dashboard for Group 4 - Smart Grid Power Demand Forecasting.
+Streamlit Web Dashboard for Smart Grid Power Demand Forecasting.
 
 Interactive, responsive interface demonstrating:
 - Project overview & methodology
@@ -28,7 +28,7 @@ from src.config import (
     PROCESSED_DATA_CSV,
     RESULTS_DIR,
     FIGURES_DIR,
-    TEAM_INFO,
+    PROJECT_INFO,
     COL_TIMESTAMP,
     COL_DEMAND,
     COL_WIND,
@@ -38,7 +38,7 @@ from src.config import (
 
 # Page Configuration
 st.set_page_config(
-    page_title="Smart Grid Demand Forecasting | Group 4",
+    page_title="Smart Grid Demand Forecasting | Blessen Thomas",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -115,7 +115,7 @@ cache_data = load_dashboard_cache()
 with st.sidebar:
     st.image("https://img.icons8.com/fluency/96/electricity.png", width=70)
     st.markdown("### **Smart Grid Forecasting**")
-    st.caption("**College Engineering Project - Group 4**")
+    st.caption("**Engineering Project - Blessen Thomas**")
     st.divider()
 
     menu = st.radio(
@@ -131,10 +131,9 @@ with st.sidebar:
     )
 
     st.divider()
-    st.markdown("#### **Project Team**")
-    for m in TEAM_INFO["Members"]:
-        st.markdown(f"<span class='team-badge'>{m['usn']} – {m['name']}</span>", unsafe_allow_html=True)
-    st.caption("College of Engineering & Technology")
+    st.markdown("#### **Author**")
+    st.markdown(f"<span class='team-badge'>{PROJECT_INFO['Author']}</span>", unsafe_allow_html=True)
+    st.caption("Machine Learning & Deep Learning Project")
 
 
 # TAB 1: Project Overview
@@ -188,9 +187,8 @@ if menu == "📌 Project Overview":
         if (FIGURES_DIR / "01_demand_time_series_and_splits.png").exists():
             st.image(str(FIGURES_DIR / "01_demand_time_series_and_splits.png"), caption="Chronological Train / Validation / Test Splits")
 
-        st.markdown("### 👥 Team Details (Group 4)")
-        team_df = pd.DataFrame(TEAM_INFO["Members"])
-        st.table(team_df)
+        st.markdown("### 👤 Author Information")
+        st.info(f"**Developer:** {PROJECT_INFO['Author']}  \n**Repository:** [blessen-thomas/Smart-Grid-Power-Demand-Forecasting]({PROJECT_INFO['Repository']})")
 
 
 # TAB 2: Historical Grid Telemetry
