@@ -199,3 +199,4 @@ class TestDashboardAssets:
             art_path = MODELS_DIR / art
             assert art_path.exists(), f"Model artifact missing: {art_path}"
             assert art_path.stat().st_size > 1000, f"Model file seems empty: {art}"
+

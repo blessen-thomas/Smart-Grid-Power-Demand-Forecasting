@@ -233,67 +233,109 @@ elif menu == "⚡ 24-Hour Forward Forecast":
     st.write("Select a forecast origin time $t$ from the held-out test set to inspect direct 24-hour predictions (`t + 1` through `t + 24`).")
 
     if cache_data is not None:
-        timestamps = cache_data["timestamps"]
-        models_available = cache_data["models"]
+        timestamps = cache_data.get("timestamps", [])
+        y_test_list = cache_data.get("y_test", [])
+        predictions_dict = cache_data.get("predictions", {})
+        models_available = cache_data.get("models", list(predictions_dict.keys()))
 
-        c_orig, c_mod = st.columns([2, 3])
-        with c_orig:
-            sample_idx = st.slider("Select Forecast Origin Time Index", min_value=0, max_value=len(timestamps)-1, value=50, step=1)
-            selected_time = timestamps[sample_idx]
-            st.info(f"**Forecast Origin ($t$):** `{selected_time}`")
+        # Determine strictly valid origins where actual target y_test is available
+        valid_origins = min(len(timestamps), len(y_test_list))
 
-        with c_mod:
-            selected_models = st.multiselect(
-                "Select Models to Display",
-                models_available,
-                default=[m for m in ["XGBoost", "LSTM", "Ridge_Linear_Regression", "Seasonal_Naive_24h"] if m in models_available],
-            )
+        if valid_origins == 0:
+            st.warning("⚠️ Forecast cache is incomplete. Please run the model comparison pipeline.")
+        else:
+            c_orig, c_mod = st.columns([2, 3])
+            with c_orig:
+                max_slider_idx = max(0, valid_origins - 1)
+                default_idx = min(50, max_slider_idx)
+                sample_idx = st.slider(
+                    "Select Forecast Origin Time Index",
+                    min_value=0,
+                    max_value=max_slider_idx,
+                    value=default_idx,
+                    step=1,
+                    help=f"Available forecast origin points: 0 to {max_slider_idx}."
+                )
+                selected_time = timestamps[sample_idx]
+                st.info(f"**Forecast Origin ($t$):** `{selected_time}`")
 
-        y_true_sample = np.array(cache_data["y_test"][sample_idx])
+            with c_mod:
+                default_selection = [m for m in ["XGBoost", "LSTM", "Ridge_Linear_Regression", "Seasonal_Naive_24h"] if m in models_available]
+                selected_models = st.multiselect(
+                    "Select Models to Display",
+                    models_available,
+                    default=default_selection if default_selection else models_available[:1],
+                )
 
-        # Plot 24h Profile
-        fig, ax = plt.subplots(figsize=(13, 5))
-        ax.plot(range(1, 25), y_true_sample / 1000.0, marker="o", color="black", lw=2.5, label="Actual Ground Truth")
+            # Extract actual target for this forecast origin safely
+            y_true_sample = np.array(y_test_list[sample_idx])
 
-        colors = {
-            "Seasonal_Naive_24h": "#7f7f7f",
-            "Ridge_Linear_Regression": "#2ca02c",
-            "Random_Forest": "#ff7f0e",
-            "XGBoost": "#d62728",
-            "LSTM": "#9467bd",
-        }
+            # Compute future 24-hour timestamps for clear labeling
+            try:
+                origin_dt = pd.to_datetime(selected_time)
+                future_hours = pd.date_range(start=origin_dt + pd.Timedelta(hours=1), periods=24, freq="h")
+                window_str = f"{future_hours[0].strftime('%Y-%m-%d %H:%M')} to {future_hours[-1].strftime('%Y-%m-%d %H:%M')}"
+            except Exception:
+                window_str = "Next 24 Hours (t+1 through t+24)"
 
-        for m_name in selected_models:
-            pred_sample = np.array(cache_data["predictions"][m_name][sample_idx])
-            ax.plot(range(1, 25), pred_sample / 1000.0, marker="s", lw=1.8, color=colors.get(m_name, "blue"), label=m_name.replace("_", " "))
+            st.caption(f"📅 **Forecast Window:** `{window_str}` (24 hourly steps)")
 
-        ax.set_title(f"24-Hour Forward Demand Forecast Issued at {selected_time}", fontsize=13, fontweight="bold")
-        ax.set_xlabel("Forecast Horizon Hour (t + 1 through t + 24)", fontsize=11)
-        ax.set_ylabel("Demand (GW)", fontsize=11)
-        ax.set_xticks(range(1, 25))
-        ax.grid(True, linestyle="--", alpha=0.6)
-        ax.legend(loc="upper left")
-        st.pyplot(fig)
+            # Plot 24h Profile
+            fig, ax = plt.subplots(figsize=(13, 5))
+            ax.plot(range(1, 25), y_true_sample / 1000.0, marker="o", color="black", lw=2.5, label="Actual Ground Truth")
 
-        # 24h Window Metrics
-        st.markdown("#### Forecast Window Performance Table")
-        metric_rows = []
-        for m_name in selected_models:
-            pred_sample = np.array(cache_data["predictions"][m_name][sample_idx])
-            mae = np.mean(np.abs(y_true_sample - pred_sample))
-            mape = np.mean(np.abs(y_true_sample - pred_sample) / y_true_sample) * 100
-            peak_actual = np.max(y_true_sample)
-            peak_pred = np.max(pred_sample)
-            peak_err = peak_pred - peak_actual
-            metric_rows.append({
-                "Model": m_name.replace("_", " "),
-                "Window MAE (MW)": f"{mae:,.1f}",
-                "Window MAPE (%)": f"{mape:.2f}%",
-                "Actual Peak (MW)": f"{peak_actual:,.1f}",
-                "Predicted Peak (MW)": f"{peak_pred:,.1f}",
-                "Peak Error (MW)": f"{peak_err:+,.1f}",
-            })
-        st.table(pd.DataFrame(metric_rows))
+            colors = {
+                "Seasonal_Naive_24h": "#7f7f7f",
+                "Ridge_Linear_Regression": "#2ca02c",
+                "Random_Forest": "#ff7f0e",
+                "XGBoost": "#d62728",
+                "LSTM": "#9467bd",
+            }
+
+            active_models_for_table = []
+            for m_name in selected_models:
+                if m_name in predictions_dict and sample_idx < len(predictions_dict[m_name]):
+                    pred_sample = np.array(predictions_dict[m_name][sample_idx])
+                    ax.plot(range(1, 25), pred_sample / 1000.0, marker="s", lw=1.8, color=colors.get(m_name, "blue"), label=m_name.replace("_", " "))
+                    active_models_for_table.append((m_name, pred_sample))
+                else:
+                    st.warning(f"⚠️ Model **{m_name}** does not have predictions available for origin index {sample_idx}.")
+
+            ax.set_title(f"24-Hour Forward Demand Forecast Issued at {selected_time}", fontsize=13, fontweight="bold")
+            ax.set_xlabel("Forecast Horizon Hour (t + 1 through t + 24)", fontsize=11)
+            ax.set_ylabel("Demand (GW)", fontsize=11)
+            ax.set_xticks(range(1, 25))
+            ax.grid(True, linestyle="--", alpha=0.6)
+            ax.legend(loc="upper left")
+            st.pyplot(fig)
+
+            # 24h Window Metrics Table
+            if active_models_for_table:
+                st.markdown("#### Forecast Window Performance Table")
+                metric_rows = []
+                actual_peak = float(np.max(y_true_sample))
+                actual_peak_h = int(np.argmax(y_true_sample)) + 1
+
+                for m_name, pred_sample in active_models_for_table:
+                    mae = float(np.mean(np.abs(y_true_sample - pred_sample)))
+                    mape = float(np.mean(np.abs(y_true_sample - pred_sample) / (y_true_sample + 1e-8)) * 100)
+                    pred_peak = float(np.max(pred_sample))
+                    pred_peak_h = int(np.argmax(pred_sample)) + 1
+                    peak_err = pred_peak - actual_peak
+                    timing_err = abs(pred_peak_h - actual_peak_h)
+
+                    metric_rows.append({
+                        "Model": m_name.replace("_", " "),
+                        "Window MAE (MW)": f"{mae:,.1f}",
+                        "Window MAPE (%)": f"{mape:.2f}%",
+                        "Actual Peak (MW)": f"{actual_peak:,.1f} (h+{actual_peak_h})",
+                        "Predicted Peak (MW)": f"{pred_peak:,.1f} (h+{pred_peak_h})",
+                        "Peak Error (MW)": f"{peak_err:+,.1f}",
+                        "Peak Timing Diff (h)": f"{timing_err} h",
+                    })
+                st.dataframe(pd.DataFrame(metric_rows), use_container_width=True)
+            else:
+                st.info("ℹ️ Select at least one model from the dropdown above to display predictions and metrics.")
 
     else:
         st.info("Evaluation cache is loading or generating. Displaying precomputed forecast figure:")

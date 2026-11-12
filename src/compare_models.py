@@ -188,12 +188,12 @@ def run_full_model_comparison() -> pd.DataFrame:
     plt.close()
     print("All figures successfully saved in results/figures/.")
 
-    # Save test sample forecast data for dashboard quick-loading
+    # Save aligned test sample forecast data for dashboard quick-loading
     dashboard_data = {
         "models": list(aligned_preds.keys()),
         "timestamps": [str(ts) for ts in splits["timestamps_test"][lstm_offset:]],
-        "y_test": y_test_aligned.tolist()[:300],  # sample 300 test windows for interactive demo
-        "predictions": {k: v.tolist()[:300] for k, v in aligned_preds.items()},
+        "y_test": np.round(y_test_aligned, 2).tolist(),
+        "predictions": {k: np.round(v, 2).tolist() for k, v in aligned_preds.items()},
     }
     dash_cache = RESULTS_DIR / "dashboard_forecast_cache.json"
     with open(dash_cache, "w", encoding="utf-8") as f:
