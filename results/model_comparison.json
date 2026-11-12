@@ -1,0 +1,123 @@
+{
+    "Seasonal_Naive_24h": {
+        "val_metrics": {
+            "MAE_MW": 22699.0,
+            "RMSE_MW": 29708.53,
+            "MAPE_percent": 12.075,
+            "R2_score": -0.726
+        },
+        "val_peak": {
+            "Peak_Demand_MAE_MW": 31010.39,
+            "Peak_Demand_Bias_MW": -30382.55,
+            "Peak_Timing_MAE_Hours": 6.99
+        },
+        "test_metrics": {
+            "MAE_MW": 10832.86,
+            "RMSE_MW": 13836.39,
+            "MAPE_percent": 5.411,
+            "R2_score": -0.0192
+        },
+        "test_peak": {
+            "Peak_Demand_MAE_MW": 13892.42,
+            "Peak_Demand_Bias_MW": -13272.7,
+            "Peak_Timing_MAE_Hours": 8.91
+        }
+    },
+    "Ridge_Linear_Regression": {
+        "val_metrics": {
+            "MAE_MW": 7678.12,
+            "RMSE_MW": 10608.86,
+            "MAPE_percent": 4.03,
+            "R2_score": 0.7799
+        },
+        "val_peak": {
+            "Peak_Demand_MAE_MW": 11979.98,
+            "Peak_Demand_Bias_MW": -11069.22,
+            "Peak_Timing_MAE_Hours": 2.32
+        },
+        "test_metrics": {
+            "MAE_MW": 7046.84,
+            "RMSE_MW": 9651.78,
+            "MAPE_percent": 3.527,
+            "R2_score": 0.5041
+        },
+        "test_peak": {
+            "Peak_Demand_MAE_MW": 8057.52,
+            "Peak_Demand_Bias_MW": -6773.4,
+            "Peak_Timing_MAE_Hours": 5.47
+        }
+    },
+    "Random_Forest": {
+        "val_metrics": {
+            "MAE_MW": 9685.68,
+            "RMSE_MW": 13065.16,
+            "MAPE_percent": 5.091,
+            "R2_score": 0.6662
+        },
+        "val_peak": {
+            "Peak_Demand_MAE_MW": 12642.91,
+            "Peak_Demand_Bias_MW": -12320.44,
+            "Peak_Timing_MAE_Hours": 3.79
+        },
+        "test_metrics": {
+            "MAE_MW": 5888.08,
+            "RMSE_MW": 8032.59,
+            "MAPE_percent": 2.952,
+            "R2_score": 0.6565
+        },
+        "test_peak": {
+            "Peak_Demand_MAE_MW": 6996.44,
+            "Peak_Demand_Bias_MW": -6274.13,
+            "Peak_Timing_MAE_Hours": 4.95
+        }
+    },
+    "XGBoost": {
+        "val_metrics": {
+            "MAE_MW": 6931.85,
+            "RMSE_MW": 9469.93,
+            "MAPE_percent": 3.571,
+            "R2_score": 0.8246
+        },
+        "val_peak": {
+            "Peak_Demand_MAE_MW": 10388.59,
+            "Peak_Demand_Bias_MW": -9979.35,
+            "Peak_Timing_MAE_Hours": 2.56
+        },
+        "test_metrics": {
+            "MAE_MW": 5371.01,
+            "RMSE_MW": 7459.84,
+            "MAPE_percent": 2.7,
+            "R2_score": 0.7037
+        },
+        "test_peak": {
+            "Peak_Demand_MAE_MW": 6126.43,
+            "Peak_Demand_Bias_MW": -5101.24,
+            "Peak_Timing_MAE_Hours": 4.72
+        }
+    },
+    "LSTM": {
+        "val_metrics": {
+            "MAE_MW": 8707.73,
+            "RMSE_MW": 10948.84,
+            "MAPE_percent": 4.478,
+            "R2_score": 0.7627
+        },
+        "val_peak": {
+            "Peak_Demand_MAE_MW": 13940.82,
+            "Peak_Demand_Bias_MW": -13712.45,
+            "Peak_Timing_MAE_Hours": 1.83
+        },
+        "test_metrics": {
+            "MAE_MW": 8169.85,
+            "RMSE_MW": 10618.33,
+            "MAPE_percent": 4.018,
+            "R2_score": 0.4019
+        },
+        "test_peak": {
+            "Peak_Demand_MAE_MW": 12474.81,
+            "Peak_Demand_Bias_MW": -12268.16,
+            "Peak_Timing_MAE_Hours": 6.54
+        },
+        "eval_offset": 23
+    }
+}
