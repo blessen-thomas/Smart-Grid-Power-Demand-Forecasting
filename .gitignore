@@ -57,7 +57,9 @@ dataset/processed/*
 !dataset/processed/.gitkeep
 *.xlsx
 *.xls
+dataset/**/*.csv
 *.csv
+!results/*.csv
 
 # Generated Model Files (Requirement: Exclude generated model files from Git)
 models/*
