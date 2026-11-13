@@ -6,9 +6,7 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C.svg)](https://pytorch.org/)
 [![XGBoost](https://img.shields.io/badge/XGBoost-2.0+-orange.svg)](https://xgboost.readthedocs.io/)
 
-> **Direct 24-Hour Ahead Multi-Horizon Electricity Demand Prediction Using Machine Learning and Deep Learning on Indian Power Grid Telemetry.**  
-> **Author:** Blessen Thomas  
-> **Repository:** [blessen-thomas/Smart-Grid-Power-Demand-Forecasting](https://github.com/blessen-thomas/Smart-Grid-Power-Demand-Forecasting)
+> **Direct 24-Hour Ahead Multi-Horizon Electricity Demand Prediction Using Machine Learning and Deep Learning on Indian Power Grid Telemetry.**
 
 ---
 

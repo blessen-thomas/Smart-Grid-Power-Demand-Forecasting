@@ -38,7 +38,7 @@ from src.config import (
 
 # Page Configuration
 st.set_page_config(
-    page_title="Smart Grid Demand Forecasting | Blessen Thomas",
+    page_title="Smart Grid Power Demand Forecasting",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -115,7 +115,7 @@ cache_data = load_dashboard_cache()
 with st.sidebar:
     st.image("https://img.icons8.com/fluency/96/electricity.png", width=70)
     st.markdown("### **Smart Grid Forecasting**")
-    st.caption("**Engineering Project - Blessen Thomas**")
+    st.caption("**Open-Source Machine Learning Project**")
     st.divider()
 
     menu = st.radio(
@@ -131,8 +131,8 @@ with st.sidebar:
     )
 
     st.divider()
-    st.markdown("#### **Author**")
-    st.markdown(f"<span class='team-badge'>{PROJECT_INFO['Author']}</span>", unsafe_allow_html=True)
+    st.markdown("#### **About**")
+    st.markdown(f"<span class='team-badge'>{PROJECT_INFO['Project']}</span>", unsafe_allow_html=True)
     st.caption("Machine Learning & Deep Learning Project")
 
 
@@ -187,8 +187,8 @@ if menu == "📌 Project Overview":
         if (FIGURES_DIR / "01_demand_time_series_and_splits.png").exists():
             st.image(str(FIGURES_DIR / "01_demand_time_series_and_splits.png"), caption="Chronological Train / Validation / Test Splits")
 
-        st.markdown("### 👤 Author Information")
-        st.info(f"**Developer:** {PROJECT_INFO['Author']}  \n**Repository:** [blessen-thomas/Smart-Grid-Power-Demand-Forecasting]({PROJECT_INFO['Repository']})")
+        st.markdown("### 📘 Project Information")
+        st.info("**Open-source machine learning project for electricity demand forecasting.**  \n**GitHub:** [Smart-Grid-Power-Demand-Forecasting](https://github.com/blessen-thomas/Smart-Grid-Power-Demand-Forecasting)")
 
 
 # TAB 2: Historical Grid Telemetry

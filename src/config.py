@@ -56,7 +56,6 @@ VAL_END_DATE = "2025-03-31 23:00:00"
 # Project Metadata
 PROJECT_INFO = {
     "Project": "Smart Grid Power Demand Forecasting",
-    "Author": "Blessen Thomas",
-    "Repository": "https://github.com/blessen-thomas/Smart-Grid-Power-Demand-Forecasting",
+    "Description": "Machine Learning-Based Electricity Demand Forecasting",
 }
 
